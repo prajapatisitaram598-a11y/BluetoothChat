@@ -1,24 +1,28 @@
-name: Build Android APK
-​on:
-push:
-branches: [ main ]
-​jobs:
-build:
-runs-on: ubuntu-latest
-​steps:
-- name: Checkout Code
-uses: actions/checkout@v4
-​- name: Setup Java
-uses: actions/setup-java@v4
-with:
-distribution: 'zulu'
-java-version: '17'
-​- name: Setup Gradle
-uses: gradle/actions/setup-gradle@v3
-​- name: Build APK
-run: gradle assembleDebug --stacktrace
-​- name: Upload APK
-uses: actions/upload-artifact@v4
-with:
-name: BluetoothChat-APK
-path: app/build/outputs/apk/debug/app-debug.apk
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
+​<uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="30" />
+​<uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+​<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+<uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
+​<application
+android:allowBackup="true"
+android:label="Bluetooth Chat"
+android:supportsRtl="true"
+tools:targetApi="31">
+<!-- Removed missing icon and theme references to prevent build crash -->
+<activity
+android:name=".MainActivity"
+android:exported="true"
+android:label="Bluetooth Chat">
+<intent-filter>
+<action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+</activity>
+</application>
+​</manifest>
